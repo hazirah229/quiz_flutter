@@ -1,11 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:quiz_flutter/question.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(Quizzies());
 }
 
-class MyApp extends StatelessWidget {
+class Quizzies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,15 +36,22 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
-  List<Widget> scoreKeeper = [
-    Icon(
-      Icons.check,
-      color: Colors.green,
-    ),
-    Icon(
-      Icons.close,
-      color: Colors.red,
-    ),
+  List<Widget> scoreKeeper = [];
+  // List<String> question = [
+  //   'You can lead a cow down stairs but not up stairs.',
+  //   'Approximately one quarter of human bones are in the feet.',
+  //   'A slug\'s blood is green.'
+  // ];
+  //
+   int questNum = 0;
+  // List<bool> answers = [false, true, false];
+  //
+  // Question quest = Question(q: 'You can lead a cow down stairs but not up stairs.', a: false);
+
+  List<Question> questLs = [
+    Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
+    Question(q: 'Approximately one quarter of human bones are in the feet.', a: true),
+    Question(q: 'A slug\'s blood is green.', a: false)
   ];
 
   @override
@@ -56,7 +66,8 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go',
+                //question[questNum],
+                questLs[questNum].questionQ,
                 textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 24.0,
@@ -76,9 +87,25 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                scoreKeeper.add(
-                  Icon(Icons.check, color: Colors.green,),
-                );
+                //bool correctAns = answers[questNum];
+                bool correctAns = questLs[questNum].answerA;
+                if(correctAns == true) {
+                  print('User got it right');
+                  scoreKeeper.add(
+                    Icon(Icons.check, color: Colors.green,),
+                  );
+                } else {
+                  print('User got it wrong');
+                  scoreKeeper.add(
+                    Icon(Icons.close, color: Colors.red,),
+                  );
+                }
+                setState(() {
+                  questNum = Random().nextInt(3);
+                });
+                // scoreKeeper.add(
+                //   Icon(Icons.check, color: Colors.green,),
+                // );
               },
             ),
           ),
@@ -95,9 +122,23 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                scoreKeeper.add(
-                  Icon(Icons.close, color: Colors.red,),
-                );
+                //bool correctAns = answers[questNum];
+                bool correctAns = questLs[questNum].answerA;
+                if(correctAns == false) {
+                  print('User got it right');
+                  scoreKeeper.add(
+                    Icon(Icons.check, color: Colors.green,),
+                  );
+                } else {
+                  print('User got it wrong');
+                  scoreKeeper.add(
+                    Icon(Icons.close, color: Colors.red,),
+                  );
+                }
+                setState(() {
+                  questNum = Random().nextInt(2);
+                });
+
               },
             ),
           ),
@@ -105,10 +146,16 @@ class _QuizPageState extends State<QuizPage> {
         Padding(
           padding: const EdgeInsets.only(left: 15.0, right: 15.0),
           child: Row(
-            children: scoreKeeper,
+             children: scoreKeeper,
           ),
         ),
       ],
     );
   }
 }
+
+/*
+Question1: 'You can lead a cow down stairs but not up stairs.', false,
+Question2: 'Approximately one quarter of human bones are in the feet.', true,
+Question3: 'A slug\'s blood is green.', true,
+*/
