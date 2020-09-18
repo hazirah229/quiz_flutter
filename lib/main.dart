@@ -1,8 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:quiz_flutter/question.dart';
+import 'quizzy.dart';
 
 void main() {
   runApp(Quizzies());
@@ -12,10 +11,6 @@ class Quizzies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      //   visualDensity: VisualDensity.adaptivePlatformDensity,
-      // ),
       home: Scaffold(
         backgroundColor: Colors.grey.shade900,
         body: SafeArea(
@@ -36,23 +31,9 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
+  Quizzy quiz = Quizzy();
   List<Widget> scoreKeeper = [];
-  // List<String> question = [
-  //   'You can lead a cow down stairs but not up stairs.',
-  //   'Approximately one quarter of human bones are in the feet.',
-  //   'A slug\'s blood is green.'
-  // ];
-  //
-   int questNum = 0;
-  // List<bool> answers = [false, true, false];
-  //
-  // Question quest = Question(q: 'You can lead a cow down stairs but not up stairs.', a: false);
-
-  List<Question> questLs = [
-    Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
-    Question(q: 'Approximately one quarter of human bones are in the feet.', a: true),
-    Question(q: 'A slug\'s blood is green.', a: false)
-  ];
+  int questNum = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +47,9 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                //question[questNum],
-                questLs[questNum].questionQ,
+                quiz.questionText(questNum), //.questLs[questNum].questionQ,  //question[questNum],  //questLs[questNum].questionQ,
                 textAlign: TextAlign.center,
-                  style: TextStyle(
+                style: TextStyle(
                       fontSize: 24.0,
                       color: Colors.white)),
             ),
@@ -87,8 +67,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //bool correctAns = answers[questNum];
-                bool correctAns = questLs[questNum].answerA;
+                bool correctAns = quiz.questionAns(questNum);  //.questLs[questNum].answerA;  //bool correctAns = answers[questNum];
                 if(correctAns == true) {
                   print('User got it right');
                   scoreKeeper.add(
@@ -100,12 +79,8 @@ class _QuizPageState extends State<QuizPage> {
                     Icon(Icons.close, color: Colors.red,),
                   );
                 }
-                setState(() {
-                  questNum = Random().nextInt(3);
-                });
-                // scoreKeeper.add(
-                //   Icon(Icons.check, color: Colors.green,),
-                // );
+                setState(() { questNum = Random().nextInt(3); }
+                );
               },
             ),
           ),
@@ -122,8 +97,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //bool correctAns = answers[questNum];
-                bool correctAns = questLs[questNum].answerA;
+                bool correctAns = quiz.questionAns(questNum);    //bool correctAns = answers[questNum];
                 if(correctAns == false) {
                   print('User got it right');
                   scoreKeeper.add(
@@ -135,10 +109,8 @@ class _QuizPageState extends State<QuizPage> {
                     Icon(Icons.close, color: Colors.red,),
                   );
                 }
-                setState(() {
-                  questNum = Random().nextInt(2);
-                });
-
+                setState(() { questNum = Random().nextInt(quiz.totalQuestion()); }
+                );
               },
             ),
           ),
@@ -159,3 +131,19 @@ Question1: 'You can lead a cow down stairs but not up stairs.', false,
 Question2: 'Approximately one quarter of human bones are in the feet.', true,
 Question3: 'A slug\'s blood is green.', true,
 */
+
+
+// List<String> question = [
+//   'You can lead a cow down stairs but not up stairs.',
+//   'Approximately one quarter of human bones are in the feet.',
+//   'A slug\'s blood is green.'
+// ];
+// List<bool> answers = [false, true, false];
+//
+// Question quest = Question(q: 'You can lead a cow down stairs but not up stairs.', a: false);
+
+// List<Question> questLs = [
+//   Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
+//   Question(q: 'Approximately one quarter of human bones are in the feet.', a: true),
+//   Question(q: 'A slug\'s blood is green.', a: false)
+// ];
