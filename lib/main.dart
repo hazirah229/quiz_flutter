@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'quizzy.dart';
@@ -47,7 +46,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quiz.questionText(questNum), //.questLs[questNum].questionQ,  //question[questNum],  //questLs[questNum].questionQ,
+                quiz.questionText(), //.questLs[questNum].questionQ,  //question[questNum],  //questLs[questNum].questionQ,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                       fontSize: 24.0,
@@ -67,7 +66,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAns = quiz.questionAns(questNum);  //.questLs[questNum].answerA;  //bool correctAns = answers[questNum];
+                bool correctAns = quiz.questionAns();  //.questLs[questNum].answerA;  //bool correctAns = answers[questNum];
                 if(correctAns == true) {
                   print('User got it right');
                   scoreKeeper.add(
@@ -79,7 +78,7 @@ class _QuizPageState extends State<QuizPage> {
                     Icon(Icons.close, color: Colors.red,),
                   );
                 }
-                setState(() { questNum = Random().nextInt(3); }
+                setState(() { quiz.getNextQuestion(); }
                 );
               },
             ),
@@ -97,7 +96,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAns = quiz.questionAns(questNum);    //bool correctAns = answers[questNum];
+                bool correctAns = quiz.questionAns();    //bool correctAns = answers[questNum];
                 if(correctAns == false) {
                   print('User got it right');
                   scoreKeeper.add(
@@ -109,7 +108,7 @@ class _QuizPageState extends State<QuizPage> {
                     Icon(Icons.close, color: Colors.red,),
                   );
                 }
-                setState(() { questNum = Random().nextInt(quiz.totalQuestion()); }
+                setState(() { quiz.getNextQuestion(); }      //setState(() { questNum = Random().nextInt(quiz.totalQuestion()); }
                 );
               },
             ),
